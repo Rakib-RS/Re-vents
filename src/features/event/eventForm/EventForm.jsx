@@ -16,9 +16,9 @@ class EventForm extends Component {
       
 
     }
-    handleInputChange = (evt) =>{
+    handleInputChange = ({target:{name,value}}) =>{
       this.setState(
-          {[evt.target.name]: evt.target.value}
+          {[name]: value}
         )
       
     }
