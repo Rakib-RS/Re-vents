@@ -65,6 +65,9 @@ export default class EventDashBoard extends Component {
       isOpen: !isOpen
     }))
   }
+  handleCreateEvent  = (newEvent) =>{
+     
+  }
     render() {
       const {events,isOpen} = this.state;
         return (
