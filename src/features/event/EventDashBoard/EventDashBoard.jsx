@@ -58,38 +58,59 @@ const eventsDahsBoard = [
 export default class EventDashBoard extends Component {
   state = {
     events: eventsDahsBoard,
-    isOpen: false
+    isOpen: false,
+    selectedEvent: null 
   };
-  handleIsOpenToggle = () => {
-    this.setState(({ isOpen }) => ({
-      isOpen: !isOpen
-    }));
-  };
+  // handleIsOpenToggle = () => {
+  //   this.setState(({ isOpen }) => ({
+  //     isOpen: !isOpen
+  //   }));
+  // }; 
+  handleCreateFormOpen =() =>{
+    this.setState({
+      isOpen:true,
+      
+    })
+  }
+  handleFormCancel = ()=>{
+    this.setState({
+      isOpen:false,
+      // selectedEvent: null 
+    })
+  }
   handleCreateEvent = newEvent => {
     newEvent.id = cuid();
     newEvent.hostPhotoURL = "/assets/user.png";
     this.setState(({ events }) => ({
-      events: [...events, newEvent],
-      isOpen:false
+      events: [...events, newEvent],  
+      isOpen: false
     }));
   };
+  handleSelectEvent = (event) =>{
+     this.setState({
+       selectedEvent: event,
+       isOpen:true
+     })
+  }
   render() {
-    const { events, isOpen } = this.state;
+    const { events, isOpen,selectedEvent  } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList events={events} />
+          <EventList events={events} selectEvent={this.handleSelectEvent} />
         </Grid.Column>
         <Grid.Column width={6}>
           <Button
-            onClick={this.handleIsOpenToggle}
+            onClick={this.handleCreateFormOpen}
             positive
             content='Create Event'
           />
           {isOpen && (
             <EventForm
-              cancelFormOpen={this.handleIsOpenToggle}
+              cancelFormOpen={this.handleFormCancel}
               createEvent={this.handleCreateEvent}
+              selectedEvent ={selectedEvent}
+              
             />
           )}
         </Grid.Column>
