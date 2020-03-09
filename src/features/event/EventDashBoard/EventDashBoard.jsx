@@ -59,41 +59,54 @@ export default class EventDashBoard extends Component {
   state = {
     events: eventsDahsBoard,
     isOpen: false,
-    selectedEvent: null 
+    selectedEvent: null
   };
   // handleIsOpenToggle = () => {
   //   this.setState(({ isOpen }) => ({
   //     isOpen: !isOpen
   //   }));
-  // }; 
-  handleCreateFormOpen =() =>{
+  // };
+  handleCreateFormOpen = () => {
     this.setState({
-      isOpen:true,
-      
-    })
-  }
-  handleFormCancel = ()=>{
+      isOpen: true
+    });
+  };
+  handleFormCancel = () => {
     this.setState({
-      isOpen:false,
-      // selectedEvent: null 
-    })
-  }
+      isOpen: false
+      // selectedEvent: null
+    });
+  };
   handleCreateEvent = newEvent => {
     newEvent.id = cuid();
     newEvent.hostPhotoURL = "/assets/user.png";
     this.setState(({ events }) => ({
-      events: [...events, newEvent],  
+      events: [...events, newEvent],
       isOpen: false
     }));
   };
-  handleSelectEvent = (event) =>{
-     this.setState({
-       selectedEvent: event,
-       isOpen:true
-     })
+  handleSelectEvent = event => {
+    this.setState({
+      selectedEvent: event,
+      isOpen: true
+    });
+  };
+  handleUpdateEvent = (updatedEvent) =>{
+    this.setState(({events})=>({
+      events: events.map(event =>{
+        if(event.id === updatedEvent.id){
+          return {...updatedEvent}
+        }
+        else{
+          return event
+        }
+      }),
+      isOpen: false,
+      selectedEvent: null
+    }))
   }
   render() {
-    const { events, isOpen,selectedEvent  } = this.state;
+    const { events, isOpen, selectedEvent } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -109,8 +122,9 @@ export default class EventDashBoard extends Component {
             <EventForm
               cancelFormOpen={this.handleFormCancel}
               createEvent={this.handleCreateEvent}
-              selectedEvent ={selectedEvent}
-              
+              selectedEvent={selectedEvent}
+              updateEvent = {this.handleUpdateEvent}
+              key={selectedEvent ? selectedEvent.id : 0}
             />
           )}
         </Grid.Column>
