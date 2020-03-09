@@ -91,26 +91,34 @@ export default class EventDashBoard extends Component {
       isOpen: true
     });
   };
-  handleUpdateEvent = (updatedEvent) =>{
-    this.setState(({events})=>({
-      events: events.map(event =>{
-        if(event.id === updatedEvent.id){
-          return {...updatedEvent}
-        }
-        else{
-          return event
+  handleUpdateEvent = updatedEvent => {
+    this.setState(({ events }) => ({
+      events: events.map(event => {
+        if (event.id === updatedEvent.id) {
+          return { ...updatedEvent };
+        } else {
+          return event;
         }
       }),
       isOpen: false,
       selectedEvent: null
-    }))
-  }
+    }));
+  };
+  handleDeleteEvent = id => {
+    this.setState(({ events }) => ({
+      events: events.filter(e => e.id !== id)
+    }));
+  };
   render() {
     const { events, isOpen, selectedEvent } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList events={events} selectEvent={this.handleSelectEvent} />
+          <EventList
+            events={events}
+            selectEvent={this.handleSelectEvent}
+            deleteEvent={this.handleDeleteEvent}
+          />
         </Grid.Column>
         <Grid.Column width={6}>
           <Button
@@ -123,7 +131,7 @@ export default class EventDashBoard extends Component {
               cancelFormOpen={this.handleFormCancel}
               createEvent={this.handleCreateEvent}
               selectedEvent={selectedEvent}
-              updateEvent = {this.handleUpdateEvent}
+              updateEvent={this.handleUpdateEvent}
               key={selectedEvent ? selectedEvent.id : 0}
             />
           )}
