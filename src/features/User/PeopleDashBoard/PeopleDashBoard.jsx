@@ -5,6 +5,7 @@ function PeopleDashBoard() {
         <div>
             <h1>PeopleDashBoard</h1>
         </div>
+        
     )
 }
 
