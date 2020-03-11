@@ -9,6 +9,7 @@ import UserDetailedPage from "../../features/User/UserDetailed/UserDetailedPage"
 import SettingsDashBoard from "../../features/User/Settings/SettingsDashBoard";
 import EventForm from "../../features/event/eventForm/EventForm";
 import { HomePage } from "../../features/Home/HomePage";
+import TestComponent from "../../features/testArea/TestComponent";
 
 class App extends Component {
   render() {
@@ -24,10 +25,10 @@ class App extends Component {
                 <Route path='/events' component={EventDashBoard} />
                 <Route path='/events/:id' component={EventDetailed} />
                 <Route path='/people' component={PeopleDashBoard} />
-                
                 <Route path='/profile/:id' component={UserDetailedPage} />
                 <Route path='/settings' component={SettingsDashBoard} />
                 <Route path='/createEvent' component={EventForm} />
+                <Route path='/test' component={TestComponent} />
               </Container>
             </Fragment>
           )}
