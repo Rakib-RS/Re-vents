@@ -1,16 +1,26 @@
-import React, { Component } from 'react'
-import {connect} from 'react-redux'
-const mapState = (state) =>({
- data: state.data
-})
- class TestComponent extends Component {
-    render() {
-        return (
-            <div>
-                <h1>Test Component</h1>
-        <h3>The answer is : {this.props.data}</h3>
-            </div>
-        )
-    }
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {incrementCounter,decrementCounter} from './testActions'
+import { Button } from "semantic-ui-react";
+const mapState = state => ({
+  data: state.data
+});
+const mapDispatchToProps ={
+    
+    incrementCounter,
+    decrementCounter
 }
-export default connect(mapState)(TestComponent)
+class TestComponent extends Component {
+  render() {
+      const {data,incrementCounter,decrementCounter} = this.props;
+    return (
+      <div>
+        <h1>Test Component</h1>
+        <h3>The answer is : {data}</h3>
+        <Button onClick={incrementCounter} positive >Increment</Button>
+        <Button onClick={decrementCounter} negative>Decrement</Button>
+      </div>
+    );
+  }
+}
+export default connect(mapState,mapDispatchToProps)(TestComponent);
