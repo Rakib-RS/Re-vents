@@ -7,7 +7,7 @@ class EventForm extends Component {
     date: "",
     city: "",
     venue: "",
-    hosted: ""
+    hostedBy: ""
   };
   componentDidMount() {
     if (this.props.selectedEvent !== null) {
@@ -30,7 +30,7 @@ class EventForm extends Component {
   };
   render() {
     const { cancelFormOpen } = this.props;
-    const { title, date, city, venue, hosted } = this.state;
+    const { title, date, city, venue, hostedBy } = this.state;
     return (
       <Segment>
         <Form onSubmit={this.handleFormSubmit} autoComplete='on'>
@@ -75,9 +75,9 @@ class EventForm extends Component {
             <label>Hosted By</label>
             <input
               placeholder='Enter the name of person hosting'
-              name='hosted'
+              name='hostedBy'
               onChange={this.handleInputChange}
-              value={hosted}
+              value={hostedBy}
             />
           </Form.Field>
           <Button positive type='submit'>
