@@ -6,6 +6,7 @@ class EventList extends Component {
     const { events, deleteEvent } = this.props;
     return (
       <Fragment>
+        
         {events.map(event => (
           <EventListItem
             key={event.id}
