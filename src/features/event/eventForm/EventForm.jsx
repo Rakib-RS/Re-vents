@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Segment, Form, Button, Grid, Header, TextArea } from "semantic-ui-react";
+import { Segment, Form, Button, Grid, Header} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
 import { reduxForm, Field } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
+import TextArea from "../../../app/common/form/TextArea";
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
