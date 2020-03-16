@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
+import { Segment, Form, Button, Grid, Header, TextArea } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
@@ -67,7 +67,8 @@ class EventForm extends Component {
               />
               <Field
                 name='description'
-                component={TextInput}
+                component={TextArea}
+                rows={3}
                 placeholder='Event Description'
               />
               <Header sub color='teal' content='Event Location Details'/>
