@@ -12,9 +12,20 @@ const SelectInput = ({
   return (
     <Form.Field error={touched && !!error}>
       <Select
-        value ={input.value ||null}
+        value={input.value || null}
+        onChange={(e, data) => { input.onChange(data.value) }}
+        placeholder={placeholder}
+        multiple={multiple}
+        options={options}
+        type={type}
       />
+      {touched && error && (
+        <Label basic color='red'>
+          {error}
+        </Label>)}
     </Form.Field>
+
+
   );
 };
 
