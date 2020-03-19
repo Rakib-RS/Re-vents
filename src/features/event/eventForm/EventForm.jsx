@@ -3,7 +3,7 @@ import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
-import { reduxForm, Field } from "redux-form";
+import { reduxForm, Field} from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import TextArea from "../../../app/common/form/TextArea";
 import SelectInput from "../../../app/common/form/SelectInput";
@@ -11,17 +11,13 @@ import SelectInput from "../../../app/common/form/SelectInput";
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
   let event = {
-    title: "",
-    date: "",
-    city: "",
-    venue: "",
-    hostedBy: ""
+    
   };
   if (eventId && state.events.length > 0) {
     event = state.events.filter(event => event.id === eventId)[0];
   }
   return {
-    event
+    initialValues: event
   };
 };
 const actions = {
@@ -33,20 +29,22 @@ const category = [
   { key: 'soft', text: 'soft', value: 'soft' }
 ]
 class EventForm extends Component {
-  handleFormSubmit = evt => {
-    evt.preventDefault();
-    if (this.state.id) {
-      this.props.updateEvent(this.state);
-      this.props.history.push(`/events/${this.state.id}`);
+  handleFormSubmit = values => {
+    console.log(values);
+    
+    if (this.props.initialValues.id) {
+      this.props.updateEvent(values);
+      this.props.history.push(`/events/${this.props.initialValues.id}`);
     } else {
       const newEvent = {
-        ...this.state,
+        ...values,
         id: cuid(),
+        hostedBy: 'Rakib',
         hostPhotoURL: "/assets/user.png"
       };
 
       this.props.createEvent(newEvent);
-      this.props.history.push(`/events`);
+      this.props.history.push(`/events/${newEvent.id}`);
     }
     //console.log(this.state);
   };
@@ -54,13 +52,14 @@ class EventForm extends Component {
     this.setState({ [name]: value });
   };
   render() {
+    const {initialValues,history} =this.props;
 
     return (
       <Grid>
         <Grid.Column width={10}>
           <Segment>
             <Header sub color='teal' content='Event Details' />
-            <Form onSubmit={this.handleFormSubmit} autoComplete='on'>
+            <Form onSubmit={this.props.handleSubmit(this.handleFormSubmit)} autoComplete='on'>
               <Field
                 name='title'
                 component={TextInput}
@@ -97,7 +96,7 @@ class EventForm extends Component {
               <Button positive type='submit'>
                 Submit
               </Button>
-              <Button onClick={this.props.history.goBack} type='button'>
+              <Button onClick={initialValues.id ? () => history.push(`/events/${initialValues.id}`) : ()=> history.push('/events') } type='button'>
                 Cancel
               </Button>
             </Form>
