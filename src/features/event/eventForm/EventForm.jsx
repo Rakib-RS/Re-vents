@@ -3,15 +3,15 @@ import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
-import { reduxForm, Field} from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import TextInput from "../../../app/common/form/TextInput";
 import TextArea from "../../../app/common/form/TextArea";
 import SelectInput from "../../../app/common/form/SelectInput";
-
+import { composeValidators, combineValidators, isRequired, hasLengthGreaterThan } from 'revalidate'
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
   let event = {
-    
+
   };
   if (eventId && state.events.length > 0) {
     event = state.events.filter(event => event.id === eventId)[0];
@@ -24,6 +24,17 @@ const actions = {
   createEvent,
   updateEvent
 };
+const validate = combineValidators({
+  title: isRequired({message:'the title is required'}),
+  category: isRequired({message: 'the category is required'}),
+  description: composeValidators(
+    isRequired({message:'please enter a description'}),
+    hasLengthGreaterThan(4)({message: 'description needs to be at least 5 charcters '})
+  )(),
+  city: isRequired('city'),
+  venue: isRequired('venue')
+
+})
 const category = [
   { key: 'drinks', text: 'drinks', value: 'drinks' },
   { key: 'soft', text: 'soft', value: 'soft' }
@@ -31,7 +42,7 @@ const category = [
 class EventForm extends Component {
   handleFormSubmit = values => {
     console.log(values);
-    
+
     if (this.props.initialValues.id) {
       this.props.updateEvent(values);
       this.props.history.push(`/events/${this.props.initialValues.id}`);
@@ -52,7 +63,7 @@ class EventForm extends Component {
     this.setState({ [name]: value });
   };
   render() {
-    const {initialValues,history} =this.props;
+    const { initialValues, history,invalid,submitting,pristine } = this.props;
 
     return (
       <Grid>
@@ -93,10 +104,10 @@ class EventForm extends Component {
                 component={TextInput}
                 placeholder='Event date'
               />
-              <Button positive type='submit'>
+              <Button disabled={invalid || submitting || pristine} positive type='submit'>
                 Submit
               </Button>
-              <Button onClick={initialValues.id ? () => history.push(`/events/${initialValues.id}`) : ()=> history.push('/events') } type='button'>
+              <Button onClick={initialValues.id ? () => history.push(`/events/${initialValues.id}`) : () => history.push('/events')} type='button'>
                 Cancel
               </Button>
             </Form>
@@ -109,4 +120,4 @@ class EventForm extends Component {
 export default connect(
   mapState,
   actions
-)(reduxForm({ form: "eventForm" })(EventForm));
+)(reduxForm({ form: "eventForm",validate })(EventForm));
