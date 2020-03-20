@@ -18,6 +18,8 @@ const DateInput = ({
        placeholderText ={placeholder}
        selected ={input.value ? new Date(input.value) : null}
        onChange ={input.onChange}
+       onBlur = {input.onBlur}
+       onChangeRaw = {(e)=> e.preventDefault()}
       />
       {touched && error && (
         <Label basic color='red'>
